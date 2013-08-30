@@ -39,9 +39,26 @@
             var About = Backbone.Model.extend({ urlRoot: '/api/About' });
             var Albom = Backbone.Model.extend({ urlRoot: '/api/Albom' });
             var AlbomeCollection = Backbone.Collection.extend({ url: '/api/Albom' });
-
+          
             var about = new About();
+            
+            var serializeObject = function (arr) {
+                var o = {};
+                var a = arr.serializeArray();
+                $.each(a, function () {
+                    if (o[this.name] != undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
 
+                return o;
+            };
+            
             var Router = Backbone.Router.extend({
                 routes: {
                     '': 'home',
@@ -51,7 +68,7 @@
                     'library': 'library',
                     'library/:id': 'library',
 
-                    'alboms': 'albom',
+                    'alboms': 'alboms',
                     'alboms/:id': 'albom',
                     'alboms/edit/:id': 'editAlbom',
                     'alboms/new': 'editAlbom',
@@ -62,22 +79,16 @@
             var HomeView = Backbone.View.extend({
                 el: '.page',
                 render: function () {
-                    //$.ajaxPrefilter(function (options, originalOptions, jqXHR) { options.url = "http://localhost:59397" + options.urlRoot; });
+                    // $.ajaxPrefilter(function (options, originalOptions, jqXHR) { options.url = "http://localhost:59397" + options.urlRoot; });
 
-                 //   var wellcome = new WellcomeImage();
+                    // var wellcome = new WellcomeImage();
                     var that = this; 
                     Navigate(that.$el, '#template-home', {});
-                    
-                    //about.fetch({
-                    //    success: function () { 
-                    //        var template = _.template($('#template-home').html(), {});
-                    //        that.$el.fadeOut(200).html(template).fadeIn(200);
-                    //    }
-                    //});
                 }
             });
             
-            var AboutView = Backbone.View.extend({
+            // About 
+            var AboutView = Backbone.View.extend({ 
                 el: '.page',
                 render: function () {
                     // $.ajaxPrefilter(function (options, originalOptions, jqXHR) { options.url = "http://localhost:59397" + options.urlRoot; });
@@ -85,13 +96,63 @@
                     var about = new About();
                     var that = this;
                     about.fetch({
-                        success: function () {  
+                        success: function () { 
                             this.Navigate(that.$el, '#template-about', { about: about });
                         }
                     });
+                } 
+            });
+            
+            var EditAboutView = Backbone.View.extend({
+                el: '.page',
+                render: function () {
+
+                    var about = new About();
+                    var that = this;
+                    about.fetch({
+                        success: function () {
+                            this.Navigate(that.$el, '#template-editAbout', { about: about });
+                        }
+                    });
+                },
+
+                events: { 'submit .editAboutForm': 'saveAbout' },
+
+                saveAbout: function (ev) {
+
+                    var about = new About();
+                    console.log($(ev));
+                    console.log(ev);
+                    console.log($(ev.currentTarget));
+                    var userData = serializeObject($(ev.currentTarget));
+                    console.log(userData);
+                    about.save(userData, {
+                        success: function () {
+                            router.navigate('about', { trigger: true });
+                        }
+                    });
+                    return false;
+                },
+            });
+            
+            // Alboms
+            var AlbomView = Backbone.View.extend({
+                el: '.page',
+                render: function (id) {
+                    // $.ajaxPrefilter(function (options, originalOptions, jqXHR) { options.url = "http://localhost:59397" + options.urlRoot; });
+
+                    var albom = new Albom({ Id: id });
+                    var that = this;
+                    albom.fetch({
+                        success: function () {
+                            this.Navigate(that.$el, '#template-alboms', { albom: albom });
+                        }
+                    });
+
                 }
             });
 
+            // Alboms
             var AlbomsView = Backbone.View.extend({
                 el: '.page',
                 render: function () {
@@ -103,26 +164,49 @@
                         success: function () {
                             this.Navigate(that.$el, '#template-alboms', { alboms: alboms.models });
                         }
-                    });
-
+                    }); 
+                },
+                
+                events: { 'click .albomBox': 'openAlbom' },
+                
+                openAlbom: function() {
+                    console.log($(this));
+                    router.navigate('alboms/' + this.$("albomBox").attr("albomId"), { trigger: true });
                 }
             });
-             
-            var EditAboutView = Backbone.View.extend({
+            
+            var EditAlbomView = Backbone.View.extend({
                 el: '.page',
-                render: function () {
-                    // $.ajaxPrefilter(function (options, originalOptions, jqXHR) { options.url = "http://localhost:59397" + options.urlRoot; });
+                render: function (id) {
 
-                    var about = new About();
+                    var albom = new Albom({Id:id});
                     var that = this;
-                    about.fetch({
+                    albom.fetch({
                         success: function () {
-                            this.Navigate(that.$el, '#template-editAbout', { about : about });
+                            this.Navigate(that.$el, '#template-editAlbom', { albom: albom });
                         }
                     });
-                }
-            });
+                },
 
+                events: { 'submit .editAboutForm': 'saveAbout' },
+
+                saveAbout: function (ev) {
+
+                    var about = new About();
+                    console.log($(ev));
+                    console.log(ev);
+                    console.log($(ev.currentTarget));
+                    var userData = serializeObject($(ev.currentTarget));
+                    console.log(userData);
+                    about.save(userData, {
+                        success: function () {
+                            router.navigate('about', { trigger: true });
+                        }
+                    });
+                    return false;
+                },
+            });
+             
             var Navigate = function(el, templ, object) {
                 var template = _.template($(templ).html(), object);
                 el.html(template);
@@ -132,6 +216,8 @@
             var aboutView = new AboutView();
             var editAboutView = new EditAboutView();
             var albomsView = new AlbomsView();
+            var albomView = new AlbomView();
+            var editAlbomView = new EditAlbomView();
 
             var router = new Router();
 
@@ -141,12 +227,19 @@
             router.on('route:about', function () {
                 aboutView.render();
             });
-            router.on('route:editAbout', function () {
+            router.on('route:editAbout', function () { 
                 editAboutView.render();
             });
-            router.on('route:albom', function () {
-                albomsView.render();
+            router.on('route:editAbout', function () {
+                editAlbomView.render();
             });
+            router.on('route:albom', function (id) {
+                albomView.render(id);
+            });
+            router.on('route:alboms', function (id) {
+                albomsView.render(id);
+            });
+
 
             Backbone.history.start();
 

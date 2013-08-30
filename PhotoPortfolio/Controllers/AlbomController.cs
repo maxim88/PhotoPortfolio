@@ -3,22 +3,30 @@
 namespace PhotoPortfolio.Controllers
 {
   using System.Collections.Generic;
+  using System.Linq;
 
   public class AlbomController : ApiController
-    {     
+    {
+    private static List<Albom> alboms = new List<Albom> { new Albom { Name = "Cars", Preview = "http://englishwell.info/uploads/taginator/Dec-2012/pictures.jpg" }, new Albom { Name = "Nature", Preview = "http://englishwell.info/uploads/taginator/Dec-2012/pictures.jpg" } }; 
       // GET api/values/5
     public IEnumerable<Albom> Get()
       {
-        return new[] { new Albom { Name = "Cars" }, new Albom { Name = "Nature" } };
+        return alboms;
       }
 
+    // GET api/values/5
+    public Albom Get(string id)
+    {
+      return alboms.FirstOrDefault(item => item.Id == id);
+    }
+
       // POST api/values
-      public void Post([FromBody]string value)
+      public void Post(Albom albom)
       {
       }
 
       // PUT api/values/5
-      public void Put(int id, [FromBody]string value)
+      public void Put(int id, Albom albom)
       {
       }
 
@@ -29,8 +37,11 @@ namespace PhotoPortfolio.Controllers
 
       public class Albom
       {
+        public string Id;
         public string Name;
         public string Description;
+
+        public string Preview;
       }
     }
 }

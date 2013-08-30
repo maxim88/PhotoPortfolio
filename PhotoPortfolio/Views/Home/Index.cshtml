@@ -38,30 +38,55 @@
 
 <script type="text/html" id="template-home">
     <h2>Home</h2>
-    <div> 
-    </div> 
 </script>
-
 
 <script type="text/html" id="template-about">
     <h2>About</h2>
     <div>
         <%=about.get('Text')%> 
     </div> 
+    <a href="#/about/edit">Edit</a>
 </script>
 
 <script type="text/html" id="template-alboms"> 
     <h2>Alboms</h2>
     <div>
         <%_.each(alboms, function(albom){%>
-        <div>
-            <%=albom.get('Name')%>
-         </div>
-         <%})%>
+        <div class="albomBox" albomId ="<%=albom.get('Id')%>">
+            <img width="140" src="<%=albom.get('Preview')%>" />
+            <div><%=albom.get('Name')%></div> 
+        </div>
+        <%})%>
     </div> 
 </script>
 
+<script type="text/html" id="template-albom"> 
+    <h2>Albom</h2>
+    <img width="140" src="<%=albom.get('Preview')%>" />
+    <label>Name</label> 
+    <label><%=about.get('Name')%></label> 
+    <label>Description</label> 
+    <label><%=about.get('Description')%></label>     
+</script>
+
+<script type="text/html" id="template-editAlbom"> 
+    <h2>Edit Albom</h2>
+    <form class="editAlbomForm">
+
+        <label>Name</label>
+        <input type="text" name="Text" value="<%=about.get('Name')%>"/>
+
+        <label>Description</label>
+        <input type="text" name="Text" value="<%=about.get('Description')%>"/> 
+
+        <button type="submit" class="saveAbout">Save</button>
+    </form>
+</script>
+
 <script type="text/html" id="template-editAbout">
-    <input type="text" multiple="true"/>
+    <form class="editAboutForm">
+        <input type="text" name="Text" multiple="true" height="200" value="<%=about.get('Text')%>"/>
+        <button type="submit" class="saveAbout">Save</button>
+    </form>
 </script>
 
