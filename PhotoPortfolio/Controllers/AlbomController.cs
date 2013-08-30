@@ -2,12 +2,14 @@
 
 namespace PhotoPortfolio.Controllers
 {
-    public class AlbomController : ApiController
+  using System.Collections.Generic;
+
+  public class AlbomController : ApiController
     {     
       // GET api/values/5
-      public About Get()
+    public IEnumerable<Albom> Get()
       {
-        return new About { Text = "go go go" };
+        return new[] { new Albom { Name = "Cars" }, new Albom { Name = "Nature" } };
       }
 
       // POST api/values
@@ -25,9 +27,10 @@ namespace PhotoPortfolio.Controllers
       {
       }
 
-      public class About
+      public class Albom
       {
-        public string Text;
+        public string Name;
+        public string Description;
       }
     }
 }

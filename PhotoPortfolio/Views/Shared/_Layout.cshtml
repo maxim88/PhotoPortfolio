@@ -1,32 +1,158 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-<body>
-    <header>
-        <div class="content-wrapper">
-            <div class="float-left">
-                <p class="site-title">
-                    <a href="~/">ASP.NET Web API</a></p>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title">
+                        <a href="~/">ASP.NET Web API</a></p>
+                </div>
+                <div class="float-right">
+                    <nav>
+                        <ul id="menu">
+                            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+                            <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                        </ul>
+                    </nav>
+                </div> 
             </div>
-            <div class="float-right">
-                <nav>
-                    <ul id="menu">
-                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
-    @RenderBody()
+        </header>
+        @Scripts.Render("~/Scripts/underscore-min.js")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/Scripts/backbone-min.js")
 
-    @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)
-</body>
+        @RenderBody()
+
+ 
+        @RenderSection("scripts", required: false)
+         
+        <script type="text/javascript">
+ 
+           // var WellcomeImage = Backbone.Model.extend({ urlRoot: '/api/Image/GetWellcomeImage' });
+            var About = Backbone.Model.extend({ urlRoot: '/api/About' });
+            var Albom = Backbone.Model.extend({ urlRoot: '/api/Albom' });
+            var AlbomeCollection = Backbone.Collection.extend({ url: '/api/Albom' });
+
+            var about = new About();
+
+            var Router = Backbone.Router.extend({
+                routes: {
+                    '': 'home',
+                    'about': 'about',
+                    'about/edit': 'editAbout',
+
+                    'library': 'library',
+                    'library/:id': 'library',
+
+                    'alboms': 'albom',
+                    'alboms/:id': 'albom',
+                    'alboms/edit/:id': 'editAlbom',
+                    'alboms/new': 'editAlbom',
+                    'alboms/:albName/:imgId': 'image',
+                }
+            });
+
+            var HomeView = Backbone.View.extend({
+                el: '.page',
+                render: function () {
+                    //$.ajaxPrefilter(function (options, originalOptions, jqXHR) { options.url = "http://localhost:59397" + options.urlRoot; });
+
+                 //   var wellcome = new WellcomeImage();
+                    var that = this; 
+                    Navigate(that.$el, '#template-home', {});
+                    
+                    //about.fetch({
+                    //    success: function () { 
+                    //        var template = _.template($('#template-home').html(), {});
+                    //        that.$el.fadeOut(200).html(template).fadeIn(200);
+                    //    }
+                    //});
+                }
+            });
+            
+            var AboutView = Backbone.View.extend({
+                el: '.page',
+                render: function () {
+                    // $.ajaxPrefilter(function (options, originalOptions, jqXHR) { options.url = "http://localhost:59397" + options.urlRoot; });
+
+                    var about = new About();
+                    var that = this;
+                    about.fetch({
+                        success: function () {  
+                            this.Navigate(that.$el, '#template-about', { about: about });
+                        }
+                    });
+                }
+            });
+
+            var AlbomsView = Backbone.View.extend({
+                el: '.page',
+                render: function () {
+                    // $.ajaxPrefilter(function (options, originalOptions, jqXHR) { options.url = "http://localhost:59397" + options.urlRoot; });
+
+                    var alboms = new AlbomeCollection();
+                    var that = this;
+                    alboms.fetch({
+                        success: function () {
+                            this.Navigate(that.$el, '#template-alboms', { alboms: alboms.models });
+                        }
+                    });
+
+                }
+            });
+             
+            var EditAboutView = Backbone.View.extend({
+                el: '.page',
+                render: function () {
+                    // $.ajaxPrefilter(function (options, originalOptions, jqXHR) { options.url = "http://localhost:59397" + options.urlRoot; });
+
+                    var about = new About();
+                    var that = this;
+                    about.fetch({
+                        success: function () {
+                            this.Navigate(that.$el, '#template-editAbout', { about : about });
+                        }
+                    });
+                }
+            });
+
+            var Navigate = function(el, templ, object) {
+                var template = _.template($(templ).html(), object);
+                el.html(template);
+            };
+             
+            var homeView = new HomeView();
+            var aboutView = new AboutView();
+            var editAboutView = new EditAboutView();
+            var albomsView = new AlbomsView();
+
+            var router = new Router();
+
+            router.on('route:home', function () {
+                homeView.render();
+            });
+            router.on('route:about', function () {
+                aboutView.render();
+            });
+            router.on('route:editAbout', function () {
+                editAboutView.render();
+            });
+            router.on('route:albom', function () {
+                albomsView.render();
+            });
+
+            Backbone.history.start();
+
+        </script>
+
+    </body>
 </html>
+
+
