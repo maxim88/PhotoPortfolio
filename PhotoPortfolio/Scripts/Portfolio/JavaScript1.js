@@ -1,24 +1,24 @@
 ﻿
-<script type="text/template" id="edit-list-template">
-   <form class="edit-user-form">
-       <legend><%= user?"Edit":"Create"%> User</legend>
-       <hr/>
-       <label>First Name</label>
-       <input type="text" name="FirstName" value="<%= user?user.get('FirstName'):''%>"  />
-       <label>Last Name</label>
-       <input type="text" name="LastName" value="<%= user?user.get('LastName'):''%>" />
-       <td>
-          <input type="hidden" name="Id" value="<%=user.get('Id')%>" />     
-       </td>   
-       <hr/>
-       <button type="submit" class="btn"><%= user?"Edit":"Create"%></button>
-       <%if (user){%>
-       <button class="delete">Delete</button> 
-        <%};%> 
-   </form>
-</script>
+//<script type="text/template" id="edit-list-template">
+//   <form class="edit-user-form">
+//       <legend><%= user?"Edit":"Create"%> User</legend>
+//       <hr/>
+//       <label>First Name</label>
+//       <input type="text" name="FirstName" value="<%= user?user.get('FirstName'):''%>"  />
+//       <label>Last Name</label>
+//       <input type="text" name="LastName" value="<%= user?user.get('LastName'):''%>" />
+//       <td>
+//          <input type="hidden" name="Id" value="<%=user.get('Id')%>" />     
+//       </td>   
+//       <hr/>
+//       <button type="submit" class="btn"><%= user?"Edit":"Create"%></button>
+//       <%if (user){%>
+//       <button class="delete">Delete</button> 
+//        <%};%> 
+//   </form>
+//</script>
 
-<script>
+
     var UserCollection = Backbone.Collection.extend({url:'/api/Users'});
 
 var serializeObject = function (arr) { 
@@ -115,4 +115,3 @@ router.on('route:editUser', function (id) {
 });
 
 Backbone.history.start();
-</script>

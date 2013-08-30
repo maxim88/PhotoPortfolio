@@ -14,6 +14,23 @@
     }
 });
 
+var CreateImage = Backbone.View.extend({
+    el: '.page',
+    render: function () {
+      //  $.ajaxPrefilter(function (options, originalOptions, jqXHR) { options.url = "http://localhost:59397" + options.url; });
+
+        var users = new UserCollection();
+        var that = this;
+        users.fetch({
+            success: function () {
+                var template = _.template($('#users-list-template').html(), { text: users.bio });
+                that.$el.html(template);
+            }
+        });
+    }
+});
+
+
 var EditUser = Backbone.View.extend({
     el: '.page',
 
