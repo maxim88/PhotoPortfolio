@@ -23,40 +23,45 @@
     <section class="content-wrapper main-content clear-fix">
         <ul>
             <li>
-                <a href="#">Home</a>
+                <a href="#">Home</a> 
             </li>
             <li>
-                <a href="#/about">About</a>
+                <a href="#/alboms">Alboms</a> 
             </li>
             <li>
-                <a href="#/alboms">Alboms</a>
+               <a href="#/about">About</a> 
             </li>
         </ul>
         <div class="page"></div>
     </section>
 </div>
 
+<script type="text/html" id="template-home">
+    <h2>Home</h2>
+    <div> 
+    </div> 
+</script>
+
+
 <script type="text/html" id="template-about">
-    <h3>About</h3>
-    <div >
-        <%=about.get('Text')%>
+    <h2>About</h2>
+    <div>
+        <%=about.get('Text')%> 
+    </div> 
+</script>
+
+<script type="text/html" id="template-alboms"> 
+    <h2>Alboms</h2>
+    <div>
+        <%_.each(alboms, function(albom){%>
+        <div>
+            <%=albom.get('Name')%>
+         </div>
+         <%})%>
     </div> 
 </script>
 
 <script type="text/html" id="template-editAbout">
-    <h3>About</h3>
-    <input multiple="true" type="text" value="<%=about.get('Text')%>">
+    <input type="text" multiple="true"/>
 </script>
 
-<script type="text/html" id="template-alboms">
-    <h3>Albom</h3> 
-    <%_.each(alboms, function(albom){%>
-    <div >
-        <%=albom.get('Name')%>
-    </div> 
-     <%})%>
-</script>
-
-<script type="text/html" id="template-home"> 
-</script>
- 
