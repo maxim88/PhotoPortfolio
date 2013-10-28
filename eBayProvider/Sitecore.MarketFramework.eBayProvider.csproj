@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>eBayProvider</RootNamespace>
-    <AssemblyName>eBayProvider</AssemblyName>
+    <RootNamespace>Sitecore.MarketFramework.eBayProvider</RootNamespace>
+    <AssemblyName>Sitecore.MarketFramework.eBayProvider</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -39,6 +39,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RestSharp">
+      <HintPath>References\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Kernel">
+      <HintPath>..\Website\bin\Sitecore.Kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.MarketFramework">
+      <HintPath>..\Website\bin\Sitecore.MarketFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.RestSharp">
+      <HintPath>References\Sitecore.RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -57,14 +69,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Products\Book.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Config\Include\Sitecore.MarketFramework.Provider.eBay.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Products\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -90,6 +101,10 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)Sitecore.MarketFramework*" "$(SolutionDir)Website\bin" /S /F /R /Y /I
+xcopy "$(ProjectDir)App_Config\*" "$(SolutionDir)Website\App_Config" /S /F /R /Y /I</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

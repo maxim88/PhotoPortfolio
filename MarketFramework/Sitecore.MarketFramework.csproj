@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MarketFramework</RootNamespace>
-    <AssemblyName>MarketFramework</AssemblyName>
+    <RootNamespace>Sitecore.MarketFramework</RootNamespace>
+    <AssemblyName>Sitecore.MarketFramework</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -43,6 +43,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Sitecore.Kernel">
+      <HintPath>..\Website\bin\Sitecore.Kernel.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -63,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Basket\IBasket.cs" />
     <Compile Include="Import\IImport.cs" />
+    <Compile Include="Products\IProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sell\ISell.cs" />
   </ItemGroup>
@@ -102,7 +106,7 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)MerketFramework*" "$(SolutionDir)Website\bin" /S /F /R /Y /I
+    <PostBuildEvent>xcopy "$(TargetDir)Sitecore.MarketFramework*" "$(SolutionDir)Website\bin" /S /F /R /Y /I
 xcopy "$(ProjectDir)Content\*" "$(SolutionDir)Website" /S /F /R /Y /I
 xcopy "$(ProjectDir)App_Config\*" "$(SolutionDir)Website\App_Config" /S /F /R /Y /I</PostBuildEvent>
   </PropertyGroup>

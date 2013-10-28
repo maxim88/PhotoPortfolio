@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketFramework", "MarketFramework\MarketFramework.csproj", "{9EBBB10F-635D-41BC-B98A-A433BC0DC455}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitecore.MarketFramework", "MarketFramework\Sitecore.MarketFramework.csproj", "{9EBBB10F-635D-41BC-B98A-A433BC0DC455}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eBayProvider", "eBayProvider\eBayProvider.csproj", "{1FAF9A40-8A9B-4452-B847-CE2CDD5D5A35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sitecore.MarketFramework.eBayProvider", "eBayProvider\Sitecore.MarketFramework.eBayProvider.csproj", "{1FAF9A40-8A9B-4452-B847-CE2CDD5D5A35}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
